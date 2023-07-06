@@ -36,6 +36,7 @@
 	"type": "module",
 	"dependencies": {
 		"cc-gram": "^1.1.0",
+		"cssnano": "^6.0.1",
 		"imagekit-javascript": "^1.5.5"
 	}
 }
