@@ -6,7 +6,8 @@
 	import { createFilter } from 'cc-gram';
 
 	export let imgSrc: string;
-	export let widths: number[] = [480, 800, 1200, 1600];
+	// export let widths: number[] = [480, 800, 1200];
+	export let widths: number[] = [100, 200, 300, 400, 500, 600];
 	export let alt = '';
 	export let imgClass: string = '';
 	export let imgFilter: Filters = '';
@@ -84,7 +85,8 @@
 		document.body.removeChild(hiddenDiv);
 	}
 
-	let main = generateURL(1600);
+	let main = generateURL(widths[widths.length - 1]);
+	console.log(main);
 	let placeholder = replaceExtensionWithPNG(imgSrc);
 	let id = sanitizeId(imgSrc);
 	const opacity = tweened(1, {

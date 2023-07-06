@@ -1,12 +1,20 @@
-import { join } from 'path'
-import skeleton from '@skeletonlabs/skeleton/tailwind/skeleton.cjs'
+import { join } from 'path';
+import skeleton from '@skeletonlabs/skeleton/tailwind/skeleton.cjs';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: 'class',
-	content: ['./src/**/*.{html,js,svelte,ts}', join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')],
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
+	],
 	theme: {
-		extend: {},
+		extend: {
+			aspectRatio: {
+				'16/9': '16 / 9',
+				'9/16': '9 / 16'
+			}
+		}
 	},
-	plugins: [...skeleton()],
-}
+	plugins: [...skeleton()]
+};
