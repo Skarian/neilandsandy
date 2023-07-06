@@ -2,14 +2,31 @@
 	export let image: string;
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Image from './image.svelte';
-	import { filters } from '$lib/utils/images';
+	import { filters, canvasFilters } from '$lib/utils/images';
 	import { writable, type Writable } from 'svelte/store';
+	import type { Filters } from '$lib/utils/images';
+
+	interface ImageComponent {
+		downloadImage: () => Promise<void>;
+		updateFilter: (newFilter: Filters) => void;
+	}
 
 	const handleClose = () => {
 		modalStore.close();
 	};
 
 	const selectedFilter: Writable<string> = writable('');
+
+	let child: ImageComponent;
+	let filter: Filters = '';
+
+	function applyFilter(newFilter: Filters) {
+		filter = newFilter;
+
+		setTimeout(() => {
+			child.updateFilter(filter);
+		}, 0);
+	}
 </script>
 
 <div class="bg-surface-100-800-token rounded-lg flex flex-col">
@@ -37,31 +54,30 @@
 	<!-- Second Section: Image and Filter Button -->
 	<div class="p-4 flex flex-grow flex-col">
 		<div class="flex justify-center mb-4">
-			<Image
-				imgSrc={image}
-				imgClass={`max-h-96 rounded-lg ${$selectedFilter != '' ? `filter-${$selectedFilter}` : ''}`}
-			/>
+			<Image bind:this={child} imgSrc={image} imgClass={`max-h-96 rounded-lg`} imgFilter={filter} />
 		</div>
 		<!-- Filters Section-->
 		<div
 			class="overflow-y-auto h-40 max-w-2xl flex flex-wrap items-center justify-center p-2 bg-surface-200-700-token rounded-lg"
 		>
-			{#each filters as filter}
+			{#each canvasFilters as filter}
 				<!-- content here -->
 				<div class="flex flex-col items-center w-24">
 					<button
 						class="p-2"
 						on:click={() => {
 							selectedFilter.set(filter);
+							applyFilter(filter);
 						}}
 					>
 						<Image
 							imgSrc={image}
-							imgClass={`w-full rounded-md filter-${filter} ${
+							imgClass={`w-full rounded-md ${
 								filter === $selectedFilter ? 'border-2 border-primary-500' : ''
 							}`}
+							imgFilter={filter}
 						/>
-						<div class="text-xs">{filter.toLowerCase()}</div>
+						<div class="text-xs">{filter === '' ? 'normal' : filter.toLowerCase()}</div>
 					</button>
 				</div>
 			{/each}
@@ -69,7 +85,11 @@
 	</div>
 	<!-- Third Section: Download and Share Button -->
 	<div class="p-4 flex justify-center space-x-4 mb-4">
-		<button type="button" class="btn rounded-lg variant-ghost-primary">
+		<button
+			type="button"
+			class="btn rounded-lg variant-ghost-primary"
+			on:click={() => child.downloadImage()}
+		>
 			<!-- <span>(icon)</span> -->
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
