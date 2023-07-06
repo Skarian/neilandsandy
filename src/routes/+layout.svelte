@@ -7,8 +7,10 @@
 	import '../app.postcss';
 	import { AppBar, AppShell, Modal } from '@skeletonlabs/skeleton';
 	import Lazy from '../components/lazy.svelte';
+	import Head from '../components/head.svelte';
 </script>
 
+<Head />
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
 	<svelte:fragment slot="pageHeader">
 		<AppBar gridColumns="grid-cols-1" slotDefault="place-self-center">
