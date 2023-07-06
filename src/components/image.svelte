@@ -86,7 +86,6 @@
 	}
 
 	let main = generateURL(widths[widths.length - 1]);
-	console.log(main);
 	let placeholder = replaceExtensionWithPNG(imgSrc);
 	let id = sanitizeId(imgSrc);
 	const opacity = tweened(1, {
@@ -154,7 +153,6 @@
 			srcset={widths.map((width) => `${generateURL(width)} ${width}w`).join(', ')}
 			sizes={widths.map((width) => `(max-width: ${width * 1.25}px) ${width}px`).join(', ') +
 				`, ${widths[widths.length - 1]}px`}
-			loading="lazy"
 			decoding="async"
 		/>
 	{/if}

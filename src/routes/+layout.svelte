@@ -6,6 +6,7 @@
 	// Most of your app wide CSS should be put in this file
 	import '../app.postcss';
 	import { AppBar, AppShell, Modal } from '@skeletonlabs/skeleton';
+	import Lazy from '../components/lazy.svelte';
 </script>
 
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
@@ -16,6 +17,7 @@
 	</svelte:fragment>
 	<Modal />
 	<div class="p-8">
+		<Lazy />
 		<slot />
 	</div>
 </AppShell>
