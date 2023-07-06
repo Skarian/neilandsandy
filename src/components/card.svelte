@@ -36,6 +36,6 @@
 	style={`scale: ${$scale}`}
 >
 	<div class="w-full aspect-square">
-		<Image imgSrc={image} imgClass="w-full rounded-lg" />
+		<Image imgSrc={image} imgClass="w-full rounded-lg" lazyLoad />
 	</div>
 </button>

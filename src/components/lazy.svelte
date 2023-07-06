@@ -18,7 +18,8 @@
 	}
 
 	onMount(() => {
-		images = document.querySelectorAll('img');
+		// Select only images with the class 'lazyload'
+		images = document.querySelectorAll('img.lazyload');
 		observer = new IntersectionObserver(handleIntersection);
 
 		images.forEach((img: HTMLImageElement) => {

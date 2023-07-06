@@ -11,6 +11,7 @@
 	export let alt = '';
 	export let imgClass: string = '';
 	export let imgFilter: Filters = '';
+	export let lazyLoad: boolean = false;
 
 	let loaded = false;
 	let failed = false;
@@ -118,7 +119,6 @@
 
 	$: if (imgFilter !== '') {
 		filter.applyFilter(`#${id}-image`);
-		// filter.applyFilter(`#${id}-placeholder`);
 	}
 
 	export function updateFilter(newFilter: Filters) {
@@ -128,9 +128,6 @@
 	}
 </script>
 
-<!-- {#if loaded} -->
-<!-- 	<button on:click={downloadImage}>Download</button> -->
-<!-- {/if} -->
 <div class="parent">
 	{#if loaded}
 		<img
@@ -149,7 +146,7 @@
 			}}
 			src={main}
 			{alt}
-			class={`${imgClass} image1`}
+			class={`${imgClass} image1 ${lazyLoad ? 'lazyload' : ''}`}
 			srcset={widths.map((width) => `${generateURL(width)} ${width}w`).join(', ')}
 			sizes={widths.map((width) => `(max-width: ${width * 1.25}px) ${width}px`).join(', ') +
 				`, ${widths[widths.length - 1]}px`}
@@ -162,7 +159,7 @@
 			data-filter={imgFilter}
 			src={`/blurred/${placeholder}`}
 			{alt}
-			class={`${imgClass} image2`}
+			class={`${imgClass} image2 ${lazyLoad ? 'lazyload' : ''}`}
 			style={`opacity: ${$opacity}`}
 			on:load={() => {
 				// Apply the filter after image is loaded

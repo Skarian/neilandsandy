@@ -2,7 +2,7 @@
 	export let image: string;
 	import { modalStore } from '@skeletonlabs/skeleton';
 	import Image from './image.svelte';
-	import { filters, canvasFilters } from '$lib/utils/images';
+	import { canvasFilters } from '$lib/utils/images';
 	import { writable, type Writable } from 'svelte/store';
 	import type { Filters } from '$lib/utils/images';
 
