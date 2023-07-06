@@ -7,7 +7,7 @@
 <div class="container mx-auto space-y-8">
 	<div class="flex items-center flex-col">
 		<h3 class="text-xl h3 mb-4 text-center">Proposal Video</h3>
-		<video class="w-72 aspect-9/16 rounded shadow-lg" controls>
+		<video class="w-72 aspect-9/16 rounded shadow-lg rounded-lg" controls>
 			<source src={videoUrl} type="video/mp4" />
 			Your browser does not support the video tag.
 		</video>
