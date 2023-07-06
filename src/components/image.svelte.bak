@@ -1,0 +1,101 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+
+	export let imgSrc: string;
+	export let widths: number[] = [480, 800, 1200, 1600];
+	export let alt = '';
+	export let imgClass: string;
+
+	let loaded = false;
+	let failed = false;
+	let loading = false;
+
+	function generateURL(width: number): string {
+		let new_url = `https://ik.imagekit.io/neilandsandy/${imgSrc}?tr=w-${width},h-${width}`;
+		return new_url;
+	}
+	function replaceExtensionWithPNG(filename: string): string {
+		var extensionIndex = filename.lastIndexOf('.');
+		if (extensionIndex !== -1) {
+			var nameWithoutExtension = filename.substring(0, extensionIndex);
+			return nameWithoutExtension + '.png';
+		}
+		return filename + '.png';
+	}
+
+	let main = generateURL(1600);
+	let placeholder = replaceExtensionWithPNG(imgSrc);
+	const opacity = tweened(1, {
+		duration: 400,
+		easing: cubicOut
+	});
+
+	onMount(() => {
+		loading = true;
+
+		// Create a promise that resolves when the image loads
+		let loadImage = new Promise((resolve, reject) => {
+			const img = new Image();
+			img.src = main;
+
+			img.onload = () => resolve(img);
+			img.onerror = reject;
+		});
+
+		loadImage
+			.then(() => {
+				loading = false;
+				loaded = true;
+			})
+			.catch(() => {
+				loading = false;
+				failed = true;
+			});
+	});
+</script>
+
+<div class="parent">
+	{#if loaded}
+		<img
+			on:load={() => opacity.set(0)}
+			src={main}
+			{alt}
+			class={`${imgClass} image1`}
+			srcset={widths.map((width) => `${generateURL(width)} ${width}w`).join(', ')}
+			sizes={widths.map((width) => `(max-width: ${width * 1.25}px) ${width}px`).join(', ') +
+				`, ${widths[widths.length - 1]}px`}
+			loading="lazy"
+			decoding="async"
+		/>
+	{/if}
+	{#if loading || loaded}
+		<img
+			src={`/blurred/${placeholder}`}
+			{alt}
+			class={`${imgClass} image2`}
+			style={`opacity: ${$opacity}`}
+		/>
+	{/if}
+</div>
+
+<style>
+	.parent {
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+
+	.image1 {
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+
+	.image2 {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+</style>
