@@ -14,7 +14,7 @@
 <AppShell regionPage="relative" slotPageHeader="sticky top-0 z-10">
 	<svelte:fragment slot="pageHeader">
 		<AppBar gridColumns="grid-cols-1" slotDefault="place-self-center">
-			<h3 class="h3">Neil & Sandy</h3>
+			<h3 class="h3">Neil and Sandy</h3>
 		</AppBar>
 	</svelte:fragment>
 	<Modal />
