@@ -4,7 +4,8 @@
 	import { cubicOut } from 'svelte/easing';
 	import type { Filters } from '$lib/utils/images';
 	import { createFilter } from 'cc-gram';
-	import { saveAs } from 'file-saver';
+	import pkg from 'file-saver';
+	const { saveAs } = pkg;
 
 	export let imgSrc: string;
 	// export let widths: number[] = [480, 800, 1200];
