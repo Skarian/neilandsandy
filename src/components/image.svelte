@@ -5,6 +5,7 @@
 	import type { Filters } from '$lib/utils/images';
 	import { createFilter } from 'cc-gram';
 	import pkg from 'file-saver';
+	import { toastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	const { saveAs } = pkg;
 
 	export let imgSrc: string;
@@ -74,12 +75,25 @@
 			quality: 0.8
 		});
 
-		// Check if blob is not null before saving
-		if (blob) {
-			saveAs(blob, imgSrc);
+		const dataURL = await filter.getDataURL(img);
+		console.log(`Data URL: ${dataURL}`);
+
+		if (dataURL) {
+			saveAs(dataURL, imgSrc);
 		} else {
 			console.error('Failed to create blob from image');
+			const t: ToastSettings = {
+				message: 'Failed to create blob from image'
+			};
+			toastStore.trigger(t);
 		}
+
+		// Check if blob is not null before saving
+		// if (blob) {
+		// 	saveAs(blob, imgSrc);
+		// } else {
+		// 	console.error('Failed to create blob from image');
+		// }
 
 		document.body.removeChild(hiddenDiv);
 	}
