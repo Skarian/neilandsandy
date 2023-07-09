@@ -4,6 +4,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import type { Filters } from '$lib/utils/images';
 	import { createFilter } from 'cc-gram';
+	import { saveAs } from 'file-saver';
 
 	export let imgSrc: string;
 	// export let widths: number[] = [480, 800, 1200];
@@ -72,13 +73,9 @@
 			quality: 0.8
 		});
 
-		// Check if blob is not null before creating a URL
+		// Check if blob is not null before saving
 		if (blob) {
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = imgSrc;
-			link.click();
+			saveAs(blob, imgSrc);
 		} else {
 			console.error('Failed to create blob from image');
 		}

@@ -35,8 +35,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@types/file-saver": "^2.0.5",
 		"cc-gram": "^1.1.0",
 		"cssnano": "^6.0.1",
+		"file-saver": "^2.0.5",
 		"imagekit-javascript": "^1.5.5"
 	}
 }
