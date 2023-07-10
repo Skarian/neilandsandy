@@ -52,7 +52,7 @@
 		return cleanedStr;
 	}
 
-	export async function downloadImage() {
+	export async function downloadImageWithFilter() {
 		const img = document.createElement('img');
 		img.src = generateDownloadURL();
 		img.id = 'temp-image';
@@ -75,27 +75,19 @@
 			quality: 0.8
 		});
 
-		const dataURL = await filter.getDataURL(img);
-		console.log(`Data URL: ${dataURL}`);
-
-		if (dataURL) {
-			saveAs(dataURL, imgSrc);
+		// Check if blob is not null before saving
+		if (blob) {
+			saveAs(blob, imgSrc);
 		} else {
 			console.error('Failed to create blob from image');
-			const t: ToastSettings = {
-				message: 'Failed to create blob from image'
-			};
-			toastStore.trigger(t);
 		}
 
-		// Check if blob is not null before saving
-		// if (blob) {
-		// 	saveAs(blob, imgSrc);
-		// } else {
-		// 	console.error('Failed to create blob from image');
-		// }
-
 		document.body.removeChild(hiddenDiv);
+	}
+
+	export function openOriginalImage() {
+		const originalImageURL = generateDownloadURL();
+		window.open(originalImageURL, '_blank');
 	}
 
 	let main = generateURL(widths[widths.length - 1]);
